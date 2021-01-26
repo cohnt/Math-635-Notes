@@ -1,0 +1,562 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[intlimits]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ragged2e}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage{arydshln}
+\usepackage{tensor}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[boxed]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{listings}
+\usepackage{textcomp}
+% \usepackage[pdf,tmpdir,singlefile]{graphviz}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{enumitem}
+\usepackage{arydshln}
+\usepackage{relsize}
+\usepackage{multicol}
+\usepackage{scalerel}
+\usepackage{upgreek}
+\usepackage{ifthen}
+
+\usetikzlibrary{bayesnet}
+\setlist{noitemsep}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\n}{\hfill\break}
+\newcommand{\nn}{\vspace{0.5\baselineskip}\n}
+\newcommand{\up}{\vspace{-\baselineskip}}
+\newcommand{\hangblock}[2]{\par\noindent\settowidth{\hangindent}{\textbf{#1: }}\textbf{#1: }\nolinebreak#2}
+\newcommand{\lemma}[1]{\hangblock{Lemma}{#1}}
+\newcommand{\defn}[1]{\hangblock{Defn}{#1}}
+\newcommand{\thm}[1]{\hangblock{Thm}{#1}}
+\newcommand{\cor}[1]{\hangblock{Cor}{#1}}
+\newcommand{\prop}[1]{\hangblock{Prop}{#1}}
+\newcommand{\ex}[1]{\hangblock{Ex}{#1}}
+\newcommand{\exer}[1]{\hangblock{Exer}{#1}}
+\newcommand{\fact}[1]{\hangblock{Fact}{#1}}
+\newcommand{\remark}[1]{\hangblock{Remark}{#1}}
+\newcommand{\proven}{\;$\square$\n}
+\newcommand{\problem}[1]{\par\noindent{\nolinebreak#1}\n}
+\newcommand{\problempart}[2]{\par\noindent\indent{}\settowidth{\hangindent}{\textbf{(#1)} \indent{}}\textbf{(#1) }\nolinebreak#2\n}
+\newcommand{\ptxt}[1]{\textrm{\textnormal{#1}}}
+\newcommand{\inlineeq}[1]{\centerline{$\displaystyle #1$}}
+\newcommand{\pageline}{\up\par\noindent\rule{\textwidth}{0.1pt}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Theory
+\newcommand{\card}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setmid}{\;\middle|\;}
+\newcommand{\ps}[1]{\mathcal{P}\left(#1\right)}
+\newcommand{\pfinite}[1]{\mathcal{P}^{\ptxt{finite}}\left(#1\right)}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\N}{\naturals}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\Z}{\integers}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Q}{\rationals}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\R}{\reals}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\C}{\complex}
+\newcommand{\halfPlane}{\mathbb{H}}
+\let\HSym\H
+\let\H\relax
+\newcommand{\H}{\halfPlane}
+\newcommand{\comp}{^{\complement}}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\Ind}{\mathbbm{1}}
+\newcommand{\cut}{\setminus}
+\DeclareMathOperator{\elem}{elem}
+
+% Differentiable Manifolds
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\CP}{\mathbb{RP}}
+\newcommand{\osubset}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\subset}}
+\newcommand{\osubseteq}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\subseteq}}
+\newcommand{\osupset}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\supset}}
+\newcommand{\osupseteq}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\supseteq}}
+\newcommand{\pdat}[3]{\left.\pd{#1}{#2}\right|_{#3}}
+\DeclareMathOperator{\so}{so}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Diff}{Diff}
+\let\dSym\d
+\let\d\relax
+\newcommand{\d}{\partial}
+\DeclareMathOperator{\gl}{gl}
+
+% Graph Theory
+\let\deg\relax
+\DeclareMathOperator{\deg}{deg}
+\newcommand{\degp}{\ptxt{deg}^{+}}
+\newcommand{\degn}{\ptxt{deg}^{-}}
+\newcommand{\precdot}{\mathrel{\ooalign{$\prec$\cr\hidewidth\hbox{$\cdot\mkern0.5mu$}\cr}}}
+\newcommand{\succdot}{\mathrel{\ooalign{$\cdot\mkern0.5mu$\cr\hidewidth\hbox{$\succ$}\cr\phantom{$\succ$}}}}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\affdim}{affdim}
+
+% Probability
+\newcommand{\parSymbol}{\P}
+\newcommand{\Prob}{\mathbb{P}}
+\renewcommand{\P}{\Prob}
+\newcommand{\Avg}{\mathbb{E}}
+\newcommand{\E}{\Avg}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\Unif}{Unif}
+\DeclareMathOperator{\Binom}{Binom}
+\newcommand{\CI}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+
+% Standard Math
+\newcommand{\inv}{^{-1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ceil}[1]{\left\lceil{}#1\right\rceil{}}
+\newcommand{\floor}[1]{\left\lfloor{}#1\right\rfloor{}}
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\of}{\circ}
+\newcommand{\tri}{\triangle}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\ndiv}{\nmid}
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\nmid}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\map}[4]{\!\!\!\begin{array}[t]{rcl}#1 & \!\!\!\!\to & \!\!\!\!#2\\ {}#3 & \!\!\!\!\mapsto & \!\!\!\!#4\end{array}}
+\newcommand{\bigsum}[2]{\smashoperator[lr]{\sum_{\scalebox{#1}{$#2$}}}}
+\DeclareMathOperator{\gcf}{gcf}
+\newcommand{\restr}[2]{\left.#1\right|_{#2}}
+
+% Linear Algebra
+\newcommand{\Id}{\textrm{\textnormal{Id}}}
+\newcommand{\im}{\textrm{\textnormal{im}}}
+\newcommand{\norm}[1]{\abs{\abs{#1}}}
+\newcommand{\tpose}{^{T}\!}
+\newcommand{\iprod}[1]{\left<#1\right>}
+\newcommand{\giprod}{\iprod{\;\,,\;}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\chgBasMat}[3]{\!\!\tensor*[_{#1}]{\left[#2\right]}{_{#3}}}
+\newcommand{\vecBas}[2]{\tensor*[]{\left[#1\right]}{_{#2}}}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\rank}{rank}
+\newcommand{\V}[1]{\vec{#1}}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\compProj}{comp}
+\DeclareMathOperator{\row}{row}
+\newcommand{\smallPMatrix}[1]{\paren{\begin{smallmatrix}#1\end{smallmatrix}}}
+\newcommand{\smallBMatrix}[1]{\brack{\begin{smallmatrix}#1\end{smallmatrix}}}
+\newcommand{\pmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\bmat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\dual}{^{*}}
+\newcommand{\pinv}{^{\dagger}}
+\newcommand{\horizontalMatrixLine}{\ptxt{\rotatebox[origin=c]{-90}{$|$}}}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\Symm}{Symm}
+\DeclareMathOperator{\SU}{SU}
+
+% Multilinear Algebra
+\let\Lsym\L
+\let\L\relax
+\DeclareMathOperator{\L}{\mathscr{L}}
+\DeclareMathOperator{\A}{\mathcal{A}}
+\DeclareMathOperator{\Alt}{Alt}
+\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\ot}{\otimes}
+\newcommand{\ox}{\otimes}
+\DeclareMathOperator{\asc}{asc}
+\DeclareMathOperator{\asSet}{set}
+\DeclareMathOperator{\sort}{sort}
+\DeclareMathOperator{\ringA}{\mathring{A}}
+\DeclareMathOperator{\Sh}{Sh}
+\DeclareMathOperator{\Bil}{Bil}
+
+% Topology
+\newcommand{\closure}[1]{\overline{#1}}
+\newcommand{\uball}{\mathcal{U}}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Bd}{Bd}
+\DeclareMathOperator{\rInt}{rInt}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\ah}{ah}
+\newcommand{\LargerTau}{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\tau}}}}}
+\newcommand{\Tau}{\mathcal{T}}
+
+% Analysis
+\DeclareMathOperator{\Graph}{Graph}
+\DeclareMathOperator{\epi}{epi}
+\DeclareMathOperator{\hypo}{hypo}
+\DeclareMathOperator{\supp}{supp}
+\newcommand{\lint}[2]{\underset{#1}{\overset{#2}{{\color{black}\underline{{\color{white}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\uint}[2]{\underset{#1}{\overset{#2}{{\color{white}\underline{{\color{black}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\alignint}[2]{\underset{#1}{\overset{#2}{{\color{white}\underline{{\color{white}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\extint}{\ptxt{ext}\int}
+\newcommand{\extalignint}[2]{\ptxt{ext}\alignint{#1}{#2}}
+\newcommand{\conv}{\ast}
+\newcommand{\pd}[2]{\frac{\partial{}#1}{\partial{}#2}}
+\newcommand{\del}{\nabla}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\curl}{curl}
+\let\div\relax
+\DeclareMathOperator{\div}{div}
+\DeclareMathOperator{\vol}{vol}
+
+% Complex Analysis
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator{\Res}{Res}
+
+% Abstract Algebra
+\DeclareMathOperator{\ord}{ord}
+\newcommand{\generated}[1]{\left<#1\right>}
+\newcommand{\cycle}[1]{\smallPMatrix{#1}}
+\newcommand{\id}{\ptxt{id}}
+\newcommand{\iso}{\cong}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\op}{op}
+\newcommand{\isom}[4]{\!\!\!\begin{array}[t]{rcl}#1 & \!\!\!\!\overset{\sim}{\to} & \!\!\!\!#2\\ #3 & \!\!\!\!\mapsto & \!\!\!\!#4\end{array}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\acts}{\;\reflectbox{\rotatebox[origin=c]{-90}{$\circlearrowright$}}\;}
+\newcommand{\disjunion}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\stab}{stab}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\Perm}{Perm}
+\DeclareMathOperator{\nsubgp}{\vartriangleleft}
+\DeclareMathOperator{\notnsubgp}{\ntriangleleft}
+\newcommand{\presentation}[2]{\left<#1\;\middle|\;#2\right>}
+\DeclareMathOperator{\Char}{char}
+\DeclareMathOperator{\fchar}{char}
+\DeclareMathOperator{\triv}{triv}
+\DeclareMathOperator{\reg}{reg}
+\DeclareMathOperator{\std}{std}
+\DeclareMathOperator{\Func}{Func}
+\DeclareMathOperator{\End}{End}
+
+% Convex Optimization
+\let\sectionSymbol\S
+\let\S\relax
+\newcommand{\S}{\mathbb{S}}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\ones}{\mathbbm{1}}
+\newcommand{\minimizeOver}[3]{\begin{array}{rl}\underset{#1}{\ptxt{minimize}} & #2\\ \ptxt{subject to} & #3\end{array}}
+\newcommand{\maximizeOver}[3]{\begin{array}{rl}\underset{#1}{\ptxt{maximize}} & #2\\ \ptxt{subject to} & #3\end{array}}
+\newcommand{\minimizationProblem}[2]{\minimizeOver{}{#1}{#2}}
+\newcommand{\maximizationProblem}[2]{\maximizeOver{}{#1}{#2}}
+\newcommand{\minimizeOverUnconstrained}[2]{\begin{array}{rl}\underset{#1}{\ptxt{minimize}} & #2\end{array}}
+\newcommand{\maximizeOverUnconstrained}[2]{\begin{array}{rl}\underset{#1}{\ptxt{maximize}} & #2\end{array}}
+\newcommand{\minimizationUnconstrained}[1]{\minimizeOverUnconstrained{}{#1}}
+\newcommand{\maximizationUnconstrained}[1]{\maximizeOverUnconstrained{}{#1}}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\argmax}{argmax}
+
+% Proofs
+\newcommand{\st}{s.t.}
+\newcommand{\unique}{!}
+\newcommand{\iffdef}{\overset{\ptxt{def}}{\Leftrightarrow}}
+\newcommand{\eqVertical}{\rotatebox[origin=c]{90}{=}}
+\newcommand{\mapsfrom}{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+\newcommand{\mapsdown}{\rotatebox[origin=c]{-90}{$\mapsto$}\mkern2mu}
+\newcommand{\mapsup}{\rotatebox[origin=c]{90}{$\mapsto$}\mkern2mu}
+\newcommand{\from}{\!\mathrel{\reflectbox{\ensuremath{\to}}}}
+\newcommand{\labeledeq}[1]{\overset{\mathclap{\ptxt{#1}}}{=}}
+\newcommand{\eqdef}{\labeledeq{def}}
+
+% Brackets
+\newcommand{\paren}[1]{\left(#1\right)}
+\renewcommand{\brack}[1]{\left[#1\right]}
+\renewcommand{\brace}[1]{\left\{#1\right\}}
+\newcommand{\ang}[1]{\left<#1\right>}
+
+% Algorithms
+\algrenewcommand{\algorithmiccomment}[1]{\hskip 1em \texttt{// #1}}
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\newcommand{\algP}{\ptxt{\textbf{P}}}
+\newcommand{\algNP}{\ptxt{\textbf{NP}}}
+\newcommand{\algNPC}{\ptxt{\textbf{NP-Complete}}}
+\newcommand{\algNPH}{\ptxt{\textbf{NP-Hard}}}
+\newcommand{\algEXP}{\ptxt{\textbf{EXP}}}
+\DeclareMathOperator{\fl}{fl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\flag}[1]{\textbf{\textcolor{red}{#1}}}
+\let\uSym\u
+\let\u\relax
+\newcommand{\u}[1]{\underline{#1}}
+\let\bSym\b
+\let\b\relax
+\newcommand{\b}[1]{\textbf{#1}}
+\let\iSym\i
+\let\i\relax
+\newcommand{\i}[1]{\textit{#1}}
+\let\scSym\sc
+\let\sc\relax
+\newcommand{\sc}[1]{\textsc{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make l's curvy in math environments %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mathcode`l="8000
+\begingroup
+\makeatletter
+\lccode`\~=`\l
+\DeclareMathSymbol{\lsb@l}{\mathalpha}{letters}{`l}
+\lowercase{\gdef~{\ifnum\the\mathgroup=\m@ne \ell \else \lsb@l \fi}}%
+\endgroup
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fix \vdots and \ddots %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{letltxmacro}
+\LetLtxMacro\orgvdots\vdots
+\LetLtxMacro\orgddots\ddots
+
+\makeatletter
+\DeclareRobustCommand\vdots{%
+	\mathpalette\@vdots{}%
+}
+\newcommand*{\@vdots}[2]{%
+	% #1: math style
+	% #2: unused
+	\sbox0{$#1\cdotp\cdotp\cdotp\m@th$}%
+	\sbox2{$#1.\m@th$}%
+	\vbox{%
+		\dimen@=\wd0 %
+		\advance\dimen@ -3\ht2 %
+		\kern.5\dimen@
+		% remove side bearings
+		\dimen@=\wd2 %
+		\advance\dimen@ -\ht2 %
+		\dimen2=\wd0 %
+		\advance\dimen2 -\dimen@
+		\vbox to \dimen2{%
+			\offinterlineskip
+			\copy2 \vfill\copy2 \vfill\copy2 %
+		}%
+	}%
+}
+\DeclareRobustCommand\ddots{%
+	\mathinner{%
+		\mathpalette\@ddots{}%
+		\mkern\thinmuskip
+	}%
+}
+\newcommand*{\@ddots}[2]{%
+	% #1: math style
+	% #2: unused
+	\sbox0{$#1\cdotp\cdotp\cdotp\m@th$}%
+	\sbox2{$#1.\m@th$}%
+	\vbox{%
+		\dimen@=\wd0 %
+		\advance\dimen@ -3\ht2 %
+		\kern.5\dimen@
+		% remove side bearings
+		\dimen@=\wd2 %
+		\advance\dimen@ -\ht2 %
+		\dimen2=\wd0 %
+		\advance\dimen2 -\dimen@
+		\vbox to \dimen2{%
+			\offinterlineskip
+			\hbox{$#1\mathpunct{.}\m@th$}%
+			\vfill
+			\hbox{$#1\mathpunct{\kern\wd2}\mathpunct{.}\m@th$}%
+			\vfill
+			\hbox{$#1\mathpunct{\kern\wd2}\mathpunct{\kern\wd2}\mathpunct{.}\m@th$}%
+		}%
+	}%
+}
+\makeatother
+
+\newcommand{\B}{
+	\begin{tikzpicture}
+	\filldraw [fill=red, draw=black] (0, 0) rectangle (0.37, 0.45);
+	\draw [line width=0.5mm, white ] (0.1,0.08) -- (0.1,0.38);
+	\draw[line width=0.5mm, white ] (0.1, 0.35) .. controls (0.2, 0.35) and (0.4, 0.2625) .. (0.1, 0.225);
+	\draw[line width=0.5mm, white ] (0.1, 0.225) .. controls (0.2, 0.225) and (0.4, 0.1625) .. (0.1, 0.1);
+	\end{tikzpicture}
+}
+
+% Allow custom symbols as arrows in tikz-cd
+\tikzset{
+  symbol/.style={
+    draw=none,
+    every to/.append style={
+      edge node={node [sloped, allow upside down, auto=false]{$#1$}}}
+  }
+}
+% Example: \arrow[r,symbol=\cong]
+% https://tex.stackexchange.com/questions/394154/how-to-include-inclusion-subgroup-relationship-in-tikz-cd-diagram
+
+\author{Thomas Cohn}
+\title{Math 635 Lecture 3}
+\date{1/25/21} % Can also use \today
+
+\begin{document}
+\maketitle
+\setlength\RaggedRightParindent{\parindent}
+\RaggedRight
+
+\par\noindent
+Review from Friday: Given a finite-dimensional vector space $V$ (i.e. $T_{p}M$ for some $p\in{}M$), a tensor of type $(k,l)$ is an element of
+\[
+	T^{(k,l)}(V)\eqdef\underbrace{V\otimes\cdots\otimes{}V}_{k}\otimes\underbrace{V^{*}\otimes\cdots\otimes{}V^{*}}_{l}\cong\{\ptxt{multilinear maps }\underbrace{V^{*}\times\cdots\times{}V^{*}}_{k}\times\underbrace{V\times\cdots\times{}V}_{l}\to\R\}
+\]
+
+\ex{
+	\begin{itemize}[topsep=0pt, itemsep=0pt, leftmargin=3\parindent]
+		\item Type $(0,1)$ is $V^{*}$, the set of linear maps $V\to\R$.
+		\item Type $(1,0)$ is $(V^{*})^{*}\cong{}V$, by $\displaystyle\isom{V}{(V^{*})}{v}{(\alpha\mapsto\alpha(v))}$ (for $\alpha\in{}V^{*}$).
+		\item Type $(0,2)$ is $V^{*}\otimes{}V^{*}\cong\set{\ptxt{bilinear }V\times{}V\to\R}$.
+	\end{itemize}\up\n
+}
+
+\defn{
+	We can take the \u{tensor product} (or \u{outer product}) of two tensors on the same vector space: given $\tau\in{}T^{(k,l)}(V)$ and $\tau'\in{}T^{(k',l')}(V)$, we define $\tau\otimes\tau'\in{}T^{(k+k',l+l')}(V)$ by
+	\[
+		(\tau\otimes\tau')(\underbrace{v_{1},\ldots,v_{k+k'}}_{\in{}V},\underbrace{\alpha_{1},\cdots,\alpha_{l+l'}}_{\in{}V^{*}})\eqdef\tau(v_{1},\ldots,v_{k},\alpha_{1},\ldots,\alpha_{k})\cdot\tau'(v_{k+1},\ldots,v_{k+k'},\alpha_{l+1},\ldots,\alpha_{l+l'})
+	\]
+	\n
+}
+
+\par\noindent
+Note: We have to check that this map is indeed multilinear.\n
+
+\ex{
+	If $\alpha,\beta\in{}T^{(0,1)}(V)=V^{*}$, then $\alpha\otimes\beta$ is the map $\map{V\times{}V}{\R}{(v_{1},v_{2})}{\alpha(v_{1})\beta(v_{2})}$.\n
+}
+
+\par\noindent
+Now, we want to consider tensors on manifolds. By the lemma from last time, given $k,l$, there's a bundle\break $\pi:T^{(k,l)}(TM)\to{}M$ with fibers $T^{(k,l)}(T_{p}M)=T^{(k,l)}(\pi\inv(p))$ for $p\in{}M$. Given coordinates $(x^{1},\ldots,x^{n})$ on $U\subseteq{}M$, we have a smooth moving frame:
+\[
+	\set{\pd{}{x^{i_{1}}}\otimes\cdots\otimes\pd{}{x^{i_{k}}}\otimes{}dx^{j_{1}}\otimes\cdots\otimes{}dx^{j_{l}}\setmid{}i_{a},j_{b}\in\set{1,\ldots,n}}
+\]
+Last time, we stated that this is a basis, and any smooth section is a linear combination of these components, with $C^{\infty}$ functions as coefficients:
+\[
+	\sum{}A^{i_{1}\cdots{}i_{k}}_{j_{1}\cdots{}j_{k}}\pd{}{x^{i_{1}}}\otimes\cdots\otimes\pd{}{x^{i_{k}}}\otimes{}dx^{j_{1}}\otimes\cdots\otimes{}dx^{j_{l}}
+\]
+Why is this true?\n
+
+\exer{
+	Check that $A^{i_{1}\cdots{}i_{k}}_{j_{1}\cdots{}j_{l}}=\tau(dx^{i_{1}},\ldots,dx^{i_{k}},\pd{}{x^{j_{1}}},\ldots,pd{}{x^{j_{l}}})$.\n
+}
+
+\ex{
+	Fix a smooth $1$-form $\alpha\in\Omega^{1}(U)$. Then $\alpha=\sum_{j=1}^{n}a_{j}dx^{j}$, and $a_{j}=\alpha(\pd{}{x^{j}})$.\n
+}
+
+\defn{
+	Some terminology: We say $\tau\in\Gamma(T^{(k,l)}(TM))$ is a \u{tensor}, or \u{tensor field}, on $M$ of type $(k,l)$. $k$ is the \u{contravariant degree}, and $l$ is the \u{covariant degree}.\n
+}
+
+\ex{
+	Vector fields are contravariant (type $(1,0)$).\n
+	$1$-forms are covariant (type $(0,1)$).\n
+}
+
+\subsection*{Einstein Summation Notation}
+
+\par\noindent
+In coordinates, the covariant indices are subindices, and the contravariant indices are superindices. The convention of Einstein summation notation is if the same index appears exactly twice in a monomial -- one upper and one lower -- then summation over that index is implied.\n
+
+\ex{
+	(Linear case) $V=\R^{n}$, $\alpha\in{}V^{*}\otimes{}V\cong\Hom(V,V)$. Then we have
+	\[
+		a_{j}^{i}v^{j}=\sum_{j=1}^{n}a_{j}^{i}v^{j}=\brack{\begin{pmatrix}
+			a_{1}^{1} & \cdots & a_{n}^{1}\\
+			\vdots & & \vdots\\
+			a_{1}^{n} & \cdots & a_{n}^{n}
+		\end{pmatrix}\begin{pmatrix}
+			v^{1}\\
+			\vdots\\
+			v^{n}
+		\end{pmatrix}}_{i}
+	\]
+	Note that $(a_{j}^{i})$ is taken to be a matrix, where $j$ is the column index and $i$ the row index.\n
+}
+
+\par\noindent
+Looking ahead, we'll also have a contraction operation: $a\in{}V^{*}\otimes{}V\rightsquigarrow\alpha\in\Hom(V,V)\rightsquigarrow\tr(a)=a_{i}^{i}\in\R$. \i{This doesn't require coordinates, as trace is basis-invariant.}\n
+
+\defn{
+	A \u{Riemannian metric} $g$ on a manifold $M$ is a smooth $(0,2)$ tensor, which, at every point, as a matrix, is symmetric ($g_{p}=g_{p}\tpose$) and positive definite ($\forall{}v\in{}T_{p}M$, $v\tpose{}g_{p}v\ge{}0$, with equality iff $v=0$).\n
+}
+
+\par\noindent
+Observe: $\forall{}p\in{}M$, $g_{p}:T_{p}M\times{}T_{p}M\to\R$ is a bilinear map. In coordinates $(x^{1},\ldots,x^{n})$ on $U\osubseteq{}M$, $g=g_{ij}\,dx^{i}\otimes{}dx^{j}$, where $g_{ij}\in{}C^{\infty}(U)$, and $g_{ij}=g_{ji}$. In fact, because of symmetry, we can write (using Einstein summation notation)
+\begin{align*}
+	g & =\frac{1}{2}\brack{g_{ij}\,dx^{i}\otimes{}dx^{j}+g_{ji}\,dx^{i}\otimes{}dx^{j}}\\
+	& =\frac{1}{2}\brack{g_{ij}\,dx^{i}\otimes{}dx^{j}+g_{ij}\,dx^{j}\otimes{}dx^{i}}\\
+	& =g_{ij}\frac{1}{2}\underbrace{\brack{dx^{i}\otimes{}dx^{j}+dx^{j}\otimes{}dx^{i}}}_{\hspace{-100pt}\mathrlap{\eqdef{}dx^{i}dx^{j}=dx^{j}dx^{i},\ptxt{ the symmetric product}}}\\
+\end{align*}
+It's also standard notation to write $ds^{2}\eqdef{}dx^{i}dx^{j}$, so we can write $g=g_{ij}\,ds^{2}$.\n
+
+\defn{
+	A \u{Riemannian manifold} is a pair $(M,g)$, where $M$ is a smooth manifold, and $g$ is a Riemannian metric on $M$.\n
+}
+
+\defn{
+	If $(M,g^{M})$ and $(N,g^{N})$ are Riemannian manifolds, an \u{isometry} $F:M\to{}N$ is a diffeomorphism \st{} $\forall{}p\in{}M$, $(dF)_{p}:T_{p}M\to{}T_{F(p)}N$ preserves the metric, i.e., \st{} $\forall{}u,v\in{}T_{p}M$, $g_{F(p)}^{N}(dF_{p}(u),dF_{p}(v))=g_{p}^{M}(u,v)$.\n
+}
+
+\par\noindent
+Notation: Sometimes, we'll write $g_{p}(u,v)=\iprod{v,w}_{p}=\iprod{v,w}$. (We omit the subscript when the choice of metric is obvious.)\n
+
+\ex{
+	Let $M\subset\R^{N}$, a regular submanifold. $\forall{}p\in{}M$, $T_{p}M\subset\R^{N}$ can be identified with a subspace of $T_{p}R^{N}\cong\R^{N}$. Define $g_{p}=\giprod{}$ by the usual inner product in $\R^{N}$.\n
+}
+
+\ex{
+	Let $M=S^{2}\subseteq\R^{3}$. We'll compute in coordinates in the upper hemisphere. Say our coordinates are $(s,t)$ (with projection to the flat unit disk), then we have our inverse parameterization
+	\[
+		(s,t)\mapsto(s,t,\sqrt{1-s^{2}-t^{2}})\eqdef\vec{r}(s,t)
+	\]
+	(with notation as in Calc III). Then under $T_{p}S^{2}\hookrightarrow\R^{3}$, we have
+	\begin{align*}
+		\pd{}{s} & \mapsto\pd{\vec{r}}{s}=\paren{1,0,\frac{-s}{\sqrt{1-s^{2}-t^{2}}}}\\
+		\pd{}{t} & \mapsto\pd{\vec{r}}{t}=\paren{0,1,\frac{-t}{\sqrt{1-s^{2}-t^{2}}}}
+	\end{align*}
+	So our metric is
+	\[
+		(g_{ij})=\begin{pmatrix}
+			\pd{\vec{r}}{s}\cdot\pd{\vec{r}}{s} & \pd{\vec{r}}{s}\cdot\pd{\vec{r}}{t}\\
+			\pd{\vec{r}}{t}\cdot\pd{\vec{r}}{s} & \pd{\vec{r}}{t}\cdot\pd{\vec{r}}{t}
+		\end{pmatrix}=\begin{pmatrix}
+			1-t^{2} & \frac{st}{1-s^{2}-t^{2}}\\
+			\frac{st}{1-s^{2}-t^{2}} & 1-s^{2}
+		\end{pmatrix}
+	\]
+	\n
+}
+
+\par\noindent
+Observe: Any submanifold $S\subset{}M$ of a Riemannian manifold $(M,g)$ inherits a Riemannian metric by $\forall{}p\in{}S$, $T_{p}S\hookrightarrow{}T_{p}M$.\n
+
+\end{document}
