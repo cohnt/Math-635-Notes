@@ -1,0 +1,581 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[intlimits]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ragged2e}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage{arydshln}
+\usepackage{tensor}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[boxed]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{listings}
+\usepackage{textcomp}
+% \usepackage[pdf,tmpdir,singlefile]{graphviz}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{enumitem}
+\usepackage{arydshln}
+\usepackage{relsize}
+\usepackage{multicol}
+\usepackage{scalerel}
+\usepackage{upgreek}
+\usepackage{ifthen}
+
+\usetikzlibrary{bayesnet}
+\usetikzlibrary{calc,positioning}
+\setlist{noitemsep}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\n}{\hfill\break}
+\newcommand{\nn}{\vspace{0.5\baselineskip}\n}
+\newcommand{\up}{\vspace{-\baselineskip}}
+\newcommand{\hangblock}[2]{\par\noindent\settowidth{\hangindent}{\textbf{#1: }}\textbf{#1: }\nolinebreak#2}
+\newcommand{\lemma}[1]{\hangblock{Lemma}{#1}}
+\newcommand{\defn}[1]{\hangblock{Defn}{#1}}
+\newcommand{\thm}[1]{\hangblock{Thm}{#1}}
+\newcommand{\cor}[1]{\hangblock{Cor}{#1}}
+\newcommand{\prop}[1]{\hangblock{Prop}{#1}}
+\newcommand{\ex}[1]{\hangblock{Ex}{#1}}
+\newcommand{\exer}[1]{\hangblock{Exer}{#1}}
+\newcommand{\fact}[1]{\hangblock{Fact}{#1}}
+\newcommand{\remark}[1]{\hangblock{Remark}{#1}}
+\newcommand{\proven}{\;$\square$\n}
+\newcommand{\problem}[1]{\par\noindent{\nolinebreak#1}\n}
+\newcommand{\problempart}[2]{\par\noindent\indent{}\settowidth{\hangindent}{\textbf{(#1)} \indent{}}\textbf{(#1) }\nolinebreak#2\n}
+\newcommand{\ptxt}[1]{\textrm{\textnormal{#1}}}
+\newcommand{\inlineeq}[1]{\centerline{$\displaystyle #1$}}
+\newcommand{\pageline}{\up\par\noindent\rule{\textwidth}{0.1pt}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Theory
+\newcommand{\card}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setmid}{\;\middle|\;}
+\newcommand{\ps}[1]{\mathcal{P}\left(#1\right)}
+\newcommand{\pfinite}[1]{\mathcal{P}^{\ptxt{finite}}\left(#1\right)}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\N}{\naturals}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\Z}{\integers}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Q}{\rationals}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\R}{\reals}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\C}{\complex}
+\newcommand{\halfPlane}{\mathbb{H}}
+\let\HSym\H
+\let\H\relax
+\newcommand{\H}{\halfPlane}
+\newcommand{\comp}{^{\complement}}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\Ind}{\mathbbm{1}}
+\newcommand{\cut}{\setminus}
+\DeclareMathOperator{\elem}{elem}
+
+% Differentiable Manifolds
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\CP}{\mathbb{RP}}
+\newcommand{\osubset}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\subset}}
+\newcommand{\osubseteq}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\subseteq}}
+\newcommand{\osupset}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\supset}}
+\newcommand{\osupseteq}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\supseteq}}
+\newcommand{\pdat}[3]{\left.\pd{#1}{#2}\right|_{#3}}
+\DeclareMathOperator{\so}{so}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Diff}{Diff}
+\let\dSym\d
+\let\d\relax
+\newcommand{\d}{\partial}
+\DeclareMathOperator{\gl}{gl}
+\DeclareMathOperator{\Ad}{Ad}
+
+% Graph Theory
+\let\deg\relax
+\DeclareMathOperator{\deg}{deg}
+\newcommand{\degp}{\ptxt{deg}^{+}}
+\newcommand{\degn}{\ptxt{deg}^{-}}
+\newcommand{\precdot}{\mathrel{\ooalign{$\prec$\cr\hidewidth\hbox{$\cdot\mkern0.5mu$}\cr}}}
+\newcommand{\succdot}{\mathrel{\ooalign{$\cdot\mkern0.5mu$\cr\hidewidth\hbox{$\succ$}\cr\phantom{$\succ$}}}}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\affdim}{affdim}
+
+% Probability
+\newcommand{\parSymbol}{\P}
+\newcommand{\Prob}{\mathbb{P}}
+\renewcommand{\P}{\Prob}
+\newcommand{\Avg}{\mathbb{E}}
+\newcommand{\E}{\Avg}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\Unif}{Unif}
+\DeclareMathOperator{\Binom}{Binom}
+\newcommand{\CI}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\DeclareMathOperator{\Ber}{Ber}
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Geom}{Geom}
+\DeclareMathOperator{\Poisson}{Poisson}
+
+% Standard Math
+\newcommand{\inv}{^{-1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ceil}[1]{\left\lceil{}#1\right\rceil{}}
+\newcommand{\floor}[1]{\left\lfloor{}#1\right\rfloor{}}
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\of}{\circ}
+\newcommand{\tri}{\triangle}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\ndiv}{\nmid}
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\nmid}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\map}[4]{\!\!\!\begin{array}[t]{rcl}#1 & \!\!\!\!\to & \!\!\!\!#2\\ {}#3 & \!\!\!\!\mapsto & \!\!\!\!#4\end{array}}
+\newcommand{\bigsum}[2]{\smashoperator[lr]{\sum_{\scalebox{#1}{$#2$}}}}
+\DeclareMathOperator{\gcf}{gcf}
+\newcommand{\restr}[2]{\left.#1\right|_{#2}}
+
+% Linear Algebra
+\newcommand{\Id}{\textrm{\textnormal{Id}}}
+\newcommand{\im}{\textrm{\textnormal{im}}}
+\newcommand{\norm}[1]{\abs{\abs{#1}}}
+\newcommand{\tpose}{^{T}\!}
+\newcommand{\iprod}[1]{\left<#1\right>}
+\newcommand{\giprod}{\iprod{\;\,,\;}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\chgBasMat}[3]{\!\!\tensor*[_{#1}]{\left[#2\right]}{_{#3}}}
+\newcommand{\vecBas}[2]{\tensor*[]{\left[#1\right]}{_{#2}}}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\rank}{rank}
+\newcommand{\V}[1]{\vec{#1}}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\compProj}{comp}
+\DeclareMathOperator{\row}{row}
+\newcommand{\smallPMatrix}[1]{\paren{\begin{smallmatrix}#1\end{smallmatrix}}}
+\newcommand{\smallBMatrix}[1]{\brack{\begin{smallmatrix}#1\end{smallmatrix}}}
+\newcommand{\pmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\bmat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\dual}{^{*}}
+\newcommand{\pinv}{^{\dagger}}
+\newcommand{\horizontalMatrixLine}{\ptxt{\rotatebox[origin=c]{-90}{$|$}}}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\Symm}{Symm}
+\DeclareMathOperator{\SU}{SU}
+\DeclareMathOperator{\U}{U}
+
+% Multilinear Algebra
+\let\Lsym\L
+\let\L\relax
+\DeclareMathOperator{\L}{\mathscr{L}}
+\DeclareMathOperator{\A}{\mathcal{A}}
+\DeclareMathOperator{\Alt}{Alt}
+\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\ot}{\otimes}
+\newcommand{\ox}{\otimes}
+\DeclareMathOperator{\asc}{asc}
+\DeclareMathOperator{\asSet}{set}
+\DeclareMathOperator{\sort}{sort}
+\DeclareMathOperator{\ringA}{\mathring{A}}
+\DeclareMathOperator{\Sh}{Sh}
+\DeclareMathOperator{\Bil}{Bil}
+
+% Topology
+\newcommand{\closure}[1]{\overline{#1}}
+\newcommand{\uball}{\mathcal{U}}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Bd}{Bd}
+\DeclareMathOperator{\rInt}{rInt}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\ah}{ah}
+\newcommand{\LargerTau}{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\tau}}}}}
+\newcommand{\Tau}{\mathcal{T}}
+
+% Analysis
+\DeclareMathOperator{\Graph}{Graph}
+\DeclareMathOperator{\epi}{epi}
+\DeclareMathOperator{\hypo}{hypo}
+\DeclareMathOperator{\supp}{supp}
+\newcommand{\lint}[2]{\underset{#1}{\overset{#2}{{\color{black}\underline{{\color{white}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\uint}[2]{\underset{#1}{\overset{#2}{{\color{white}\underline{{\color{black}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\alignint}[2]{\underset{#1}{\overset{#2}{{\color{white}\underline{{\color{white}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\extint}{\ptxt{ext}\int}
+\newcommand{\extalignint}[2]{\ptxt{ext}\alignint{#1}{#2}}
+\newcommand{\conv}{\ast}
+\newcommand{\pd}[2]{\frac{\partial{}#1}{\partial{}#2}}
+\newcommand{\del}{\nabla}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\curl}{curl}
+\let\div\relax
+\DeclareMathOperator{\div}{div}
+\DeclareMathOperator{\vol}{vol}
+
+% Complex Analysis
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator{\Res}{Res}
+
+% Abstract Algebra
+\DeclareMathOperator{\ord}{ord}
+\newcommand{\generated}[1]{\left<#1\right>}
+\newcommand{\cycle}[1]{\smallPMatrix{#1}}
+\newcommand{\id}{\ptxt{id}}
+\newcommand{\iso}{\cong}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\op}{op}
+\newcommand{\isom}[4]{\!\!\!\begin{array}[t]{rcl}#1 & \!\!\!\!\overset{\sim}{\to} & \!\!\!\!#2\\ #3 & \!\!\!\!\mapsto & \!\!\!\!#4\end{array}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\acts}{\;\reflectbox{\rotatebox[origin=c]{-90}{$\circlearrowright$}}\;}
+\newcommand{\disjunion}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\stab}{stab}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\Perm}{Perm}
+\DeclareMathOperator{\nsubgp}{\vartriangleleft}
+\DeclareMathOperator{\notnsubgp}{\ntriangleleft}
+\newcommand{\presentation}[2]{\left<#1\;\middle|\;#2\right>}
+\DeclareMathOperator{\Char}{char}
+\DeclareMathOperator{\fchar}{char}
+\DeclareMathOperator{\triv}{triv}
+\DeclareMathOperator{\reg}{reg}
+\DeclareMathOperator{\std}{std}
+\DeclareMathOperator{\Func}{Func}
+\DeclareMathOperator{\End}{End}
+
+% Convex Optimization
+\let\sectionSymbol\S
+\let\S\relax
+\newcommand{\S}{\mathbb{S}}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\ones}{\mathbbm{1}}
+\newcommand{\minimizeOver}[3]{\begin{array}{rl}\underset{#1}{\ptxt{minimize}} & #2\\ \ptxt{subject to} & #3\end{array}}
+\newcommand{\maximizeOver}[3]{\begin{array}{rl}\underset{#1}{\ptxt{maximize}} & #2\\ \ptxt{subject to} & #3\end{array}}
+\newcommand{\minimizationProblem}[2]{\minimizeOver{}{#1}{#2}}
+\newcommand{\maximizationProblem}[2]{\maximizeOver{}{#1}{#2}}
+\newcommand{\minimizeOverUnconstrained}[2]{\begin{array}{rl}\underset{#1}{\ptxt{minimize}} & #2\end{array}}
+\newcommand{\maximizeOverUnconstrained}[2]{\begin{array}{rl}\underset{#1}{\ptxt{maximize}} & #2\end{array}}
+\newcommand{\minimizationUnconstrained}[1]{\minimizeOverUnconstrained{}{#1}}
+\newcommand{\maximizationUnconstrained}[1]{\maximizeOverUnconstrained{}{#1}}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\argmax}{argmax}
+
+% Proofs
+\newcommand{\st}{s.t.}
+\newcommand{\unique}{!}
+\newcommand{\iffdef}{\overset{\ptxt{def}}{\Leftrightarrow}}
+\newcommand{\eqVertical}{\rotatebox[origin=c]{90}{=}}
+\newcommand{\mapsfrom}{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+\newcommand{\mapsdown}{\rotatebox[origin=c]{-90}{$\mapsto$}\mkern2mu}
+\newcommand{\mapsup}{\rotatebox[origin=c]{90}{$\mapsto$}\mkern2mu}
+\newcommand{\from}{\!\mathrel{\reflectbox{\ensuremath{\to}}}}
+\newcommand{\labeledeq}[1]{\overset{\mathclap{\ptxt{#1}}}{=}}
+\newcommand{\eqdef}{\labeledeq{def}}
+
+% Brackets
+\newcommand{\paren}[1]{\left(#1\right)}
+\renewcommand{\brack}[1]{\left[#1\right]}
+\renewcommand{\brace}[1]{\left\{#1\right\}}
+\newcommand{\ang}[1]{\left<#1\right>}
+
+% Algorithms
+\algrenewcommand{\algorithmiccomment}[1]{\hskip 1em \texttt{// #1}}
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\newcommand{\algP}{\ptxt{\textbf{P}}}
+\newcommand{\algNP}{\ptxt{\textbf{NP}}}
+\newcommand{\algNPC}{\ptxt{\textbf{NP-Complete}}}
+\newcommand{\algNPH}{\ptxt{\textbf{NP-Hard}}}
+\newcommand{\algEXP}{\ptxt{\textbf{EXP}}}
+\DeclareMathOperator{\fl}{fl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other commands and shorthand
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\flag}[1]{\textbf{\textcolor{red}{#1}}}
+\let\uSym\u
+\let\u\relax
+\newcommand{\u}[1]{\underline{#1}}
+\let\bSym\b
+\let\b\relax
+\newcommand{\b}[1]{\textbf{#1}}
+\let\iSym\i
+\let\i\relax
+\newcommand{\i}[1]{\textit{#1}}
+\let\scSym\sc
+\let\sc\relax
+\newcommand{\sc}[1]{\textsc{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make l's curvy in math environments %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mathcode`l="8000
+\begingroup
+\makeatletter
+\lccode`\~=`\l
+\DeclareMathSymbol{\lsb@l}{\mathalpha}{letters}{`l}
+\lowercase{\gdef~{\ifnum\the\mathgroup=\m@ne \ell \else \lsb@l \fi}}%
+\endgroup
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fix \vdots and \ddots %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{letltxmacro}
+\LetLtxMacro\orgvdots\vdots
+\LetLtxMacro\orgddots\ddots
+
+\makeatletter
+\DeclareRobustCommand\vdots{%
+	\mathpalette\@vdots{}%
+}
+\newcommand*{\@vdots}[2]{%
+	% #1: math style
+	% #2: unused
+	\sbox0{$#1\cdotp\cdotp\cdotp\m@th$}%
+	\sbox2{$#1.\m@th$}%
+	\vbox{%
+		\dimen@=\wd0 %
+		\advance\dimen@ -3\ht2 %
+		\kern.5\dimen@
+		% remove side bearings
+		\dimen@=\wd2 %
+		\advance\dimen@ -\ht2 %
+		\dimen2=\wd0 %
+		\advance\dimen2 -\dimen@
+		\vbox to \dimen2{%
+			\offinterlineskip
+			\copy2 \vfill\copy2 \vfill\copy2 %
+		}%
+	}%
+}
+\DeclareRobustCommand\ddots{%
+	\mathinner{%
+		\mathpalette\@ddots{}%
+		\mkern\thinmuskip
+	}%
+}
+\newcommand*{\@ddots}[2]{%
+	% #1: math style
+	% #2: unused
+	\sbox0{$#1\cdotp\cdotp\cdotp\m@th$}%
+	\sbox2{$#1.\m@th$}%
+	\vbox{%
+		\dimen@=\wd0 %
+		\advance\dimen@ -3\ht2 %
+		\kern.5\dimen@
+		% remove side bearings
+		\dimen@=\wd2 %
+		\advance\dimen@ -\ht2 %
+		\dimen2=\wd0 %
+		\advance\dimen2 -\dimen@
+		\vbox to \dimen2{%
+			\offinterlineskip
+			\hbox{$#1\mathpunct{.}\m@th$}%
+			\vfill
+			\hbox{$#1\mathpunct{\kern\wd2}\mathpunct{.}\m@th$}%
+			\vfill
+			\hbox{$#1\mathpunct{\kern\wd2}\mathpunct{\kern\wd2}\mathpunct{.}\m@th$}%
+		}%
+	}%
+}
+\makeatother
+
+\newcommand{\B}{
+	\begin{tikzpicture}
+	\filldraw [fill=red, draw=black] (0, 0) rectangle (0.37, 0.45);
+	\draw [line width=0.5mm, white ] (0.1,0.08) -- (0.1,0.38);
+	\draw[line width=0.5mm, white ] (0.1, 0.35) .. controls (0.2, 0.35) and (0.4, 0.2625) .. (0.1, 0.225);
+	\draw[line width=0.5mm, white ] (0.1, 0.225) .. controls (0.2, 0.225) and (0.4, 0.1625) .. (0.1, 0.1);
+	\end{tikzpicture}
+}
+
+% Allow custom symbols as arrows in tikz-cd
+\tikzset{
+  symbol/.style={
+    draw=none,
+    every to/.append style={
+      edge node={node [sloped, allow upside down, auto=false]{$#1$}}}
+  }
+}
+% Example: \arrow[r,symbol=\cong]
+% https://tex.stackexchange.com/questions/394154/how-to-include-inclusion-subgroup-relationship-in-tikz-cd-diagram
+
+\author{Thomas Cohn}
+\title{Math 635 Lecture 9}
+\date{2/8/21} % Can also use \today
+
+\begin{document}
+\maketitle
+\setlength\RaggedRightParindent{\parindent}
+\RaggedRight
+
+\subsection*{An Example of Connections and Parallelism}
+
+\par\noindent
+Take $M=S^{1}$, with the coordinate $0\le{}x\le{}2\pi$. Let $\mathcal{E}=M\times\R^{2}=S^{1}\times\R^{2}$, with the global frame $(E_{1}=(1,0),E_{2}=(0,1))$, $\forall{}x\in{}S^{1}$. Then elements of $\Gamma(\mathcal{E})$ are functions $\vec{f}(x)=(f^{1}(x),f^{2}(x))$.\n
+
+\par\noindent
+Suppose $\nabla$ is given by $\vartheta$, any $2\times{}2$ matrix of $1$-forms on $M$. So $\theta_{i}^{j}=\alpha_{i}^{j}dx$, for $\alpha_{i}^{j}\in{}C^{\infty}(S^{1})$. Thus,
+\[
+	\nabla_{\pd{}{x}}\vec{f}=\underbrace{\begin{pmatrix}
+			\frac{df^{1}}{dx}\\[5pt]
+			\frac{df^{2}}{dx}
+		\end{pmatrix}}_{=\frac{d}{dx}\vec{f}}+\underbrace{\begin{pmatrix}
+		a_{i}^{j}
+	\end{pmatrix}}_{\hspace{-20pt}\mathrlap{\ptxt{because $dx\paren{\pd{}{x}}=1$}}}\vec{f}
+\]
+
+\par\noindent
+Consider the simple case $\vartheta=\begin{pmatrix}
+	0 & c\\ -c & 0
+\end{pmatrix}$, for some $c\in\R\cut\set{0}$. Then
+\[
+	\vec{f}\;\ptxt{is parallel}\quad\Leftrightarrow\quad\nabla_{\pd{}{x}}\vec{f}=0\quad\Leftrightarrow\quad
+	\left\{\begin{array}{l}
+		\frac{df^{1}}{dx}=cf^{2}\\[5pt]
+		\frac{df^{2}}{dx}=-cf^{1}
+	\end{array}\right.\quad\Leftrightarrow\quad\left\{\begin{array}{l}
+		f^{1}(x)=f^{1}(0)\cos(cx)+f^{2}(0)\sin(cx)\\[5pt]
+		f^{2}(x)=-f^{1}(0)\sin(cx)+f^{2}(0)\cos(cx)
+	\end{array}\right.
+\]
+This final object is the solution to the parallel transport problem, starting at $x=0$ with $\smallPMatrix{f^{1}(0)\\ f^{2}(0)}=\vec{f}(0)$.
+\[
+	\begin{tikzpicture}[scale=1]
+		\draw (0,0) circle [x radius=5cm, y radius=3cm];
+		\draw (-4.5,0) node {$S^{1}$};
+		%
+		\node (A) at (4,-{sqrt(9*(1-(16/25)))}) {};
+		\node (B) at (3,{sqrt(9*(1-(9/25)))}) {};
+		%
+		\fill (A) circle [radius=0.1cm];
+		\draw (A) + (-1,1.2) -- +(-1,-0.8) -- +(1,-1.2) -- +(1,0.8) -- cycle;
+		\draw[blue] [->] (A) edge +(0.75,{0.75*(-1.2 - (-0.8))/2});
+		\draw[blue] [->] (A) edge +(0,0.75);
+		\draw[red] [->] (A) edge +(0.9, 0.5);
+		\draw (A) + (0,-0.5) node {$x=0$};
+		\draw[red] (A) + ({0.9+0.5}, 0.5) node {$\vec{f}(0)$};
+		\draw (A) + (1.25,-1.45) node {$\R^{2}$};
+		%
+		\fill (B) circle [radius=0.1cm];
+		\draw (B) + (-1,-1.2) -- +(-1,0.8) -- +(+1,1.2) -- +(1,-0.8) -- cycle;
+		% \draw[blue] [->] (B) edge +(0,0.75);
+		% \draw[blue] [->] (B) edge +(-0.75,{-0.75*(-0.8 - (-1.2))/2});
+		\draw[red] [->] (B) edge +(-0.5, 0.9);
+		\draw (B) + (0,-0.5) node {$x=x_{1}$};
+		\draw[red] (B) + (-0.5,{0.9+0.5}) node {$\vec{f}(x_{1})$};
+		\draw (B) + (1.25,1.45) node {$\R^{2}$};
+	\end{tikzpicture}
+\]
+Additionally, we can map from $\vec{f}(0)$ to $\vec{f}(2\pi)$ with the holonomy matrix:
+\[
+	\begin{pmatrix}
+		\cos(2\pi{}c) & -\sin(2\pi{}c)\\
+		\sin(2\pi{}c) & \cos(2\pi{}c)
+	\end{pmatrix}
+\]
+Thus, the holonomy is trivial (i.e., the holonomy matrix is the identity matrix $I_{2}$) iff $c\in\Z$.\n
+
+\exer{
+	Compute $\nabla_{\pd{}{x}}E_{1}$ and $\nabla_{\pd{}{x}}E_{2}$. Note: It won't be $0$!\n
+}
+
+\subsection*{Curvature of a Connection on a Bundle}
+
+\par\noindent
+Say $\nabla$ is a connection on the vector bundle $\mathcal{E}\to{}M$. Curvature is a local object, and there are two approaches to describe it.\n
+
+\subsubsection*{First Approach}
+
+\par\noindent
+Begin with a moving frame $(E_{1},\ldots,E_{r})$ (which leads to the connection matrix $\vartheta=(\theta_{i}^{j})$).\n
+
+\par\noindent
+Question: Can we change the moving frame to $(F_{1},\ldots,F_{r})$ so that the new connection matrix, $\tilde\vartheta$, is $0$?\n
+
+\par\noindent
+Well, if $A=(a_{j}^{i})$ is defined so that $F_{j}=a_{j}^{i}E_{i}$ (using Einstein summation notation), then we saw (in homework) that
+\[
+	\tilde\vartheta=A\inv{}dA+A\inv\vartheta{}A
+\]
+So
+\[
+	\tilde\vartheta=0\quad\Leftrightarrow\quad{}dA=-\vartheta{}A\quad\Leftrightarrow\quad\forall{}i,j,da_{j}^{i}=-\theta_{k}^{i}a_{j}^{k}
+\]
+We suspect that we'll encounter problems from the fact that $d^{2}=0$. Assume such a solution $A$ exists. Then, using the product rule, $0=-(d\theta_{k}^{i})a_{j}^{k}+\theta_{k}^{i}\wedge{}da_{j}^{k}$. But we know $da_{j}^{k}=-\theta_{l}^{k}a_{j}^{l}$, so for the connection matrix to be trivial, we must have
+\[
+	(d\theta_{k}^{i})a_{j}^{k}+\theta_{k}^{i}\wedge\theta_{l}^{k}a_{j}^{l}=0,\quad\forall{}i,j
+\]
+Note: $\theta_{k}^{j}\wedge\theta_{l}^{k}=(\vartheta\wedge\vartheta)_{l}^{j}$ by definition. So using matrix notation, we can write this necessary condition as
+\[
+	(d\vartheta)A+(\vartheta\wedge\vartheta)A=0
+\]
+$A$ is invertible, so this condition is true iff $d\vartheta+\vartheta\wedge\vartheta=0$.\n
+
+\defn{
+	$\Omega\eqdef{}d\vartheta+\vartheta\wedge\vartheta$ is a matrix of $2$-forms, called the \u{curvature matrix} of $\nabla$ with respect to the moving frame $(E_{1},\ldots,E_{r})$.
+}
+
+\par\noindent
+The connection is trivializable only if $\Omega=0$ (i.e. this is a necessary condition). There is no reason in principle this should happen, so it's very rare!
+
+\subsubsection*{Second Approach}
+
+\par\noindent
+Fix $X,Y\in\mathfrak{X}(M)$. Consider $\nabla_{X},\nabla_{Y}:\Gamma(\mathcal{E})\to\Gamma(\mathcal{E})$ as operators, acting linearly on smooth sections.\n
+
+\par\noindent
+Question: What is their commutator (as operators)?\n
+
+\par\noindent
+Well, if $\mathcal{E}=M\times\R^{r}$ and $\vartheta\equiv{}0$, then $\nabla_{X}\vec{f}=X(f)+0$. So $\nabla_{X}=X$. Therefore, $\brack{\nabla_{X},\nabla_{Y}}=\brack{X,Y}=\nabla_{\brack{X,Y}}$, by definition of the commutator of vector fields.\n
+
+\par\noindent
+In general, let $E_{1},\ldots,E_{r}$ be a moving frame, and $\vartheta=(\theta_{i}^{j})$ the connection matrix as before. Then $\nabla_{X}=X+\vartheta(X)$, acting on functions $\vec{f}:U\to\R^{r}$ ($\vartheta(X)$ is a matrix of functions). Likewise, $\nabla_{Y}=Y+\vartheta(Y)$. So we can compute:
+\[
+	\brack{\nabla_{X},\nabla_{Y}}=\brack{X+\vartheta(X),Y+\vartheta(Y)}=\brack{X,Y}+\brack{\vartheta(X),\vartheta(Y)}+\underbrace{\brack{X,\vartheta(Y)}}_{\ptxt{(I)}}+\underbrace{\brack{\vartheta(X),Y}}_{\ptxt{(II)}}
+\]
+For (I), we have
+\[
+	\paren{\brack{X,\vartheta(Y)}(\vec{f})}^{i}=X\underbrace{(\theta_{j}^{i}(Y)f^{j})}_{\mathclap{\substack{
+		\ptxt{$i$th component}\\
+		\ptxt{of $\vartheta(Y)(\vec{f})$}
+	}}}-\theta_{j}^{i}(Y)X(f^{j})=(X\theta_{j}^{i}(Y))f^{j}
+\]
+by Leibniz's rule. So (I) is $X((\theta_{j}^{i})(Y))=X(\vartheta(Y))$ as a matrix. Similarly, (II) is $-Y((\theta_{j}^{i})(X))=-Y(\vartheta(X))$ as matrix.\n
+
+\par\noindent
+Claim: This eventually leads to $\brack{\nabla_{X},\nabla_{Y}}=\nabla_{\brack{X,Y}}+d\vartheta(X,Y)+\brack{\vartheta(X),\vartheta(Y)}$.\n
+Proof: Use the fact that for any $1$-form $\omega$, and for any $X,Y\in\mf{X}(M)$, $d\omega(X,Y)=X(\omega(Y))-Y(\omega(X))-\omega(\brack{X,Y})$.\n
+
+\par\noindent
+Observe: $\brack{\vartheta(X),\vartheta(Y)}=(\vartheta\wedge\vartheta)(X,Y)$, by definition of $\wedge$. So we get the same object using both approaches!\n
+
+\defn{
+	$\mathcal{R}(X,Y)\eqdef{}d\vartheta(X,Y)+\brack{\vartheta(X),\vartheta(Y)}$ is the \u{curvature operator}.\n
+}
+
+\end{document}
