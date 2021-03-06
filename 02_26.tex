@@ -550,6 +550,10 @@ We're effectively creating a parametric surface:
 	\draw[thick, <->] (0,-2) -- (0,2) node[anchor=east]{$s$};
 	\draw (0,1) node[anchor=east]{$+\delta$} -- (2,1) -- (2,-1) -- (0,-1) node[anchor=east]{$-\delta$};
 	\draw[-to, thick, red] (0,0) -- (2,0);
+	\draw[-to, red] (0,0.4) -- (2,0.4);
+	\draw[-to, red] (0,0.8) -- (2,0.8);
+	\draw[-to, red] (0,-0.4) -- (2,-0.4);
+	\draw[-to, red] (0,-0.8) -- (2,-0.8);
 	\draw[thick, blue] (0.5,-0.9) -- (0.5,0.9);
 	\draw[thick, blue] (1,-0.9) -- (1,0.9);
 	\draw[thick, blue] (1.5,-0.9) -- (1.5,0.9);
@@ -561,20 +565,24 @@ We're effectively creating a parametric surface:
 	\fill (p) circle [radius=0.05cm];
 	\draw (p) + ({1.25*0.87}, {1.25*0.5}) node (v) {};
 	\draw[-to, thick] (p) -- (v);
-	\draw[-to, red] (p) arc (105:60:4);
+	\draw[-to, red] (p) arc (105:93.75:4) node (s11) {} arc (93.75:82.5:4) node (s21) {} arc (82.5:71.25:4) node (s31) {} arc (71.25:60:4);
 	\draw[-to, red, thick] (p) arc (120:75:4) node (exppv) {};
 	\draw[-to, red] (p) arc (135:90:4);
 	\draw[-to, red] (p) arc (150:105:4) node (tcurve) {};
-	\draw[-to, red] (p) arc (165:120:4);
+	\draw[-to, red] (p) arc (165:153.75:4) node (s12) {} arc (153.75:142.5:4) node (s22) {} arc (142.5:131.25:4) node (s32) {} arc (131.25:120:4);
 	\fill (exppv) circle [radius=0.05cm];
 	\draw[-to, red] (p) arc (120:75:4);
+	\draw[blue, thick, bend right=30] (s11.center) to (s12.center);
+	\draw[blue, thick, bend right=30] (s21.center) to (s22.center);
+	\draw[blue, thick, bend right=30] (s31.center) to (s32.center);
 	%
 	\draw (5.5,0) node[anchor=south]{$f$};
 	\draw (p) node[anchor=north east]{$p$};
 	\draw (v) + (0,0) node {$v$};
 	\draw (exppv) node[anchor=west]{$\exp_{p}(v)$};
 	\draw[red] (tcurve) + (0.5,0) node[anchor=west]{$t$-curves};
-	\draw[red] (3,-0.75) node {\begin{tabular}{c}Original\\ geodesic\end{tabular}};
+	\draw[red] (2.5,-0.5) node[anchor=north west] {Original geodesic};
+	\draw[red, dashed] (2.05,-0.05) -- (2.6,-0.6);
 	\draw[blue] (1,1.5) node {$s$-curves};
 	\draw (2,0) node[anchor=south west]{$t=1$};
 	\draw (M) + (0.5,0.75) node{$M$};
