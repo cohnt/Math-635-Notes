@@ -583,7 +583,7 @@ We're now ready to prove Gauss' lemma...\newpage
 Why are we done? Well, we can find $f_{t}(t)$ by $f(t,s=0)$ WOLOG, so $f(t,0)$ is the velocity of the radial geodeisc $t\mapsto\exp_{p}(tv(0))$, and $f(t,0)$ is an arbitrary tangent vector to the geodesic sphere $\exp_{p}(S_{r})$. So we conclude that the tangent space of a point $q$ on the geodesic sphere is perpendicular to the geodesic $\exp_{p}(tv)$, where $\exp_{p}(v)=q$.\newpage
 
 \cor{
-	If $U=\exp_{p}(B_{\varepsilon}(0))$ is a normal neighborhood of $p$, and $q\in{}U$, then the shortest path from $p$ to $q$ is $t\mapsto\exp_{p}(tv)$ ($0\le{}t\le{}1$), where $\exp_{p}(v)=q$. (By path, we mean a continuous, piecewise smooth function, although we only need it to be $C^{1}$ for this proof.)\nn
+	If $U=\exp_{p}(B_{\varepsilon}(0))$ is a normal neighborhood of $p$, and $q\in{}U$, then the shortest path from $p$ to $q$ is $t\mapsto\exp_{p}(tv)$ ($0\le{}t\le{}1$), where $\exp_{p}(v)=q$. (By path, we mean a continuous, piecewise $C^{1}$ function.)\nn
 	Proof: Assume $c:[0,1]\to{}U$, with $c(0)=p$ and $c(1)=q$, is a smooth path, and its image is contained in $U$. Write $(\exp_{p})\inv(c(t))=r(t)w(t)$, where $r(t)\ge{}0$ and $\norm{w(t)}\equiv{}1$. Consider the family $f(r,t)=\exp_{p}(rw(t))$, so that $c(t)=f(r(t),t)$. Then $\frac{dc}{dt}=\frac{dr}{dt}f_{r}+f_{t}$, and $f_{r}$ and $f_{t}$ are perpendicular for all $t$, so we can use the Pythagorean theorem to find
 	\[
 		\norm{\frac{dc}{dt}}^{2}=\norm{\frac{dr}{dt}f_{r}}^{2}+\norm{f_{t}}^{2}=\abs{\frac{dr}{dt}}^{2}\norm{f_{r}}^{2}+\norm{f_{t}}^{2}=\abs{\frac{dr}{dt}}^{2}+\norm{f_{t}}^{2}\ge\abs{\frac{dr}{dt}}^{2}
