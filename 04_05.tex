@@ -515,7 +515,7 @@ Observe: If $K(p)\ne{}0$, then $N$ is a local diffeomorphism at $p$. So if $K$ i
 Question: Is there a metric on $S^{2}$ where $K<0$? Answer: No, purely by topology.\n
 
 \thm{
-	(Gauss-Bonnet) Let $n=2m$ be even. Let $M\subset\R^{n+1}$ be a compact, oriented, connected manifold. Let $N:M\to{}S^{n}$ be the Gauss map. Define $\mathscr{K}:M\to\R$, the Gaussian curvature, by $N^{*}(dV_{S^{n}})=\mathscr{K}dV_{M}$, where $dV_{S^{n}}$ is the volume form on $S^{n}$ and $dV_{M}$ is the volume form on $M$. Then
+	(Gauss-Bonnet) Let $n=2m$ be even. Let $M\subset\R^{n+1}$ be a compact, oriented, connected manifold. Let $N:M\to{}S^{n}$ be the Gauss map. Define $\mathscr{K}:M\to\R$, the Gaussian curvature, by $N^{*}(dV_{S^{n}})=\mathscr{K}dV_{M}$, where $dV_{S^{n-1}}$ is the volume form on $S^{n-1}$ and $dV_{M}$ is the volume form on $M$. Then
 	\[
 		\int_{M}\mathscr{K}\,dV_{M}=\frac{1}{2}\Vol(S^{n})\chi(M)
 	\]
@@ -539,7 +539,7 @@ Plan for how we'll prove Gauss-Bonnet:
 	\item Show $\ms{K}$ is intrinsic (for $n\ge{}4$).
 	\item Show $\ms{K}dV_{M}=N^{*}(dV_{S^{n}})$. This implies
 	\[
-		\int_{M}\ms{K}\,dV_{M}=\int_{M}N^{*}(dV_{S^{n}})=\deg(N)\int_{S^{n}}dV_{S^{n}}=\deg(N)\Vol(S^{n})
+		\int_{M}\ms{K}\,dV_{M}=\int_{M}N^{*}(dV_{S^{n-1}})=\deg(N)\int_{S^{n}}dV_{S^{n}}=\deg(N)\Vol(S^{n})
 	\]
 	\item $\deg(N)=\frac{1}{2}\chi(M)$
 \end{enumerate}
