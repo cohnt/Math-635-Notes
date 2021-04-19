@@ -1,0 +1,585 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[intlimits]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ragged2e}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{cancel}
+\usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage{arydshln}
+\usepackage{tensor}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[boxed]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{listings}
+\usepackage{textcomp}
+% \usepackage[pdf,tmpdir,singlefile]{graphviz}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{enumitem}
+\usepackage{arydshln}
+\usepackage{relsize}
+\usepackage{multirow,multicol}
+\usepackage{scalerel}
+\usepackage{upgreek}
+\usepackage{ifthen}
+\usepackage{yhmath}
+
+\usetikzlibrary{bayesnet}
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+\setlist{noitemsep}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\n}{\hfill\break}
+\newcommand{\nn}{\vspace{0.5\baselineskip}\n}
+\newcommand{\up}{\vspace{-\baselineskip}}
+\newcommand{\hangblock}[2]{\par\noindent\settowidth{\hangindent}{\textbf{#1: }}\textbf{#1: }\nolinebreak#2}
+\newcommand{\lemma}[1]{\hangblock{Lemma}{#1}}
+\newcommand{\defn}[1]{\hangblock{Defn}{#1}}
+\newcommand{\thm}[1]{\hangblock{Thm}{#1}}
+\newcommand{\cor}[1]{\hangblock{Cor}{#1}}
+\newcommand{\prop}[1]{\hangblock{Prop}{#1}}
+\newcommand{\ex}[1]{\hangblock{Ex}{#1}}
+\newcommand{\exer}[1]{\hangblock{Exer}{#1}}
+\newcommand{\fact}[1]{\hangblock{Fact}{#1}}
+\newcommand{\remark}[1]{\hangblock{Remark}{#1}}
+\newcommand{\proven}{\;$\square$\n}
+\newcommand{\problem}[1]{\par\noindent{\nolinebreak#1}\n}
+\newcommand{\problempart}[2]{\par\noindent\indent{}\settowidth{\hangindent}{\textbf{(#1)} \indent{}}\textbf{(#1) }\nolinebreak#2\n}
+\newcommand{\ptxt}[1]{\textrm{\textnormal{#1}}}
+\newcommand{\inlineeq}[1]{\centerline{$\displaystyle #1$}}
+\newcommand{\pageline}{\up\par\noindent\rule{\textwidth}{0.1pt}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set Theory
+\newcommand{\card}[1]{\left|#1\right|}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setmid}{\;\middle|\;}
+\newcommand{\ps}[1]{\mathcal{P}\left(#1\right)}
+\newcommand{\pfinite}[1]{\mathcal{P}^{\ptxt{finite}}\left(#1\right)}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\N}{\naturals}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\Z}{\integers}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\Q}{\rationals}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\R}{\reals}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\C}{\complex}
+\newcommand{\halfPlane}{\mathbb{H}}
+\let\HSym\H
+\let\H\relax
+\newcommand{\H}{\halfPlane}
+\newcommand{\comp}{^{\complement}}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\Ind}{\mathbbm{1}}
+\newcommand{\cut}{\setminus}
+\DeclareMathOperator{\elem}{elem}
+
+% Differentiable Manifolds
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\CP}{\mathbb{RP}}
+\newcommand{\osubset}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\subset}}
+\newcommand{\osubseteq}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\subseteq}}
+\newcommand{\osupset}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\supset}}
+\newcommand{\osupseteq}{\overset{\mathclap{\scalebox{0.5}{\ptxt{open}}}}{\supseteq}}
+\newcommand{\pdat}[3]{\left.\pd{#1}{#2}\right|_{#3}}
+\DeclareMathOperator{\so}{so}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Diff}{Diff}
+\let\dSym\d
+\let\d\relax
+\newcommand{\d}{\partial}
+\DeclareMathOperator{\gl}{gl}
+\DeclareMathOperator{\Ad}{Ad}
+\newcommand{\comm}[1]{\left[#1\right]}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Gr}{Gr}
+\DeclareMathOperator{\Ric}{Ric}
+\let\OSymbol\O
+\let\O\relax
+\DeclareMathOperator{\O}{O}
+\newcommand{\overarc}[1]{\wideparen{#1}}
+\DeclareMathOperator{\II}{\mathit{I\!\!I}}
+\DeclareMathOperator{\Vol}{Vol}
+\DeclareMathOperator{\Pf}{Pf}
+\DeclareMathOperator{\Laplacian}{\Delta}
+
+% Graph Theory
+\let\deg\relax
+\DeclareMathOperator{\deg}{deg}
+\newcommand{\degp}{\ptxt{deg}^{+}}
+\newcommand{\degn}{\ptxt{deg}^{-}}
+\newcommand{\precdot}{\mathrel{\ooalign{$\prec$\cr\hidewidth\hbox{$\cdot\mkern0.5mu$}\cr}}}
+\newcommand{\succdot}{\mathrel{\ooalign{$\cdot\mkern0.5mu$\cr\hidewidth\hbox{$\succ$}\cr\phantom{$\succ$}}}}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\affdim}{affdim}
+
+% Probability
+\newcommand{\parSymbol}{\P}
+\newcommand{\Prob}{\mathbb{P}}
+\renewcommand{\P}{\Prob}
+\newcommand{\Avg}{\mathbb{E}}
+\newcommand{\E}{\Avg}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\Unif}{Unif}
+\DeclareMathOperator{\Binom}{Binom}
+\newcommand{\CI}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\DeclareMathOperator{\Ber}{Ber}
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Geom}{Geom}
+\DeclareMathOperator{\Poisson}{Poisson}
+\DeclareMathOperator{\Exp}{Exp}
+\DeclareMathOperator{\Beta}{Beta}
+\DeclareMathOperator{\Normal}{N}
+\DeclareMathOperator{\DistGamma}{Gamma}
+\DeclareMathOperator{\eff}{eff}
+\DeclareMathOperator{\AVar}{AVar}
+
+% Standard Math
+\newcommand{\inv}{^{-1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ceil}[1]{\left\lceil{}#1\right\rceil{}}
+\newcommand{\floor}[1]{\left\lfloor{}#1\right\rfloor{}}
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\of}{\circ}
+\newcommand{\tri}{\triangle}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\ndiv}{\nmid}
+\renewcommand{\epsilon}{\varepsilon}
+\newcommand{\divides}{\mid}
+\newcommand{\ndivides}{\nmid}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\map}[4]{{\arraycolsep=2pt\begin{array}[t]{rcl}#1 & \to & #2\\ {}#3 & \mapsto & #4\end{array}}}
+\newcommand{\bigsum}[2]{\smashoperator[lr]{\sum_{\scalebox{#1}{$#2$}}}}
+\DeclareMathOperator{\gcf}{gcf}
+\newcommand{\restr}[1]{\left.#1\right|}
+
+% Linear Algebra
+\newcommand{\Id}{\textrm{\textnormal{Id}}}
+\newcommand{\im}{\textrm{\textnormal{im}}}
+\newcommand{\norm}[1]{\abs{\abs{#1}}}
+\newcommand{\tpose}{^{T}\!}
+\newcommand{\iprod}[1]{\left<#1\right>}
+\newcommand{\giprod}{\iprod{\;\,,\;}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\chgBasMat}[3]{\!\!\tensor*[_{#1}]{\left[#2\right]}{_{#3}}}
+\newcommand{\vecBas}[2]{\tensor*[]{\left[#1\right]}{_{#2}}}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\rank}{rank}
+\newcommand{\V}[1]{\vec{#1}}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\compProj}{comp}
+\DeclareMathOperator{\row}{row}
+\newcommand{\smallPMatrix}[1]{\paren{\begin{smallmatrix}#1\end{smallmatrix}}}
+\newcommand{\smallBMatrix}[1]{\brack{\begin{smallmatrix}#1\end{smallmatrix}}}
+\newcommand{\pmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\bmat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\dual}{^{*}}
+\newcommand{\pinv}{^{\dagger}}
+\newcommand{\horizontalMatrixLine}{\ptxt{\rotatebox[origin=c]{-90}{$|$}}}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\Symm}{Symm}
+\DeclareMathOperator{\SU}{SU}
+\DeclareMathOperator{\U}{U}
+
+% Multilinear Algebra
+\let\Lsym\L
+\let\L\relax
+\DeclareMathOperator{\L}{\mathscr{L}}
+\DeclareMathOperator{\A}{\mathcal{A}}
+\DeclareMathOperator{\Alt}{Alt}
+\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\ot}{\otimes}
+\newcommand{\ox}{\otimes}
+\DeclareMathOperator{\asc}{asc}
+\DeclareMathOperator{\asSet}{set}
+\DeclareMathOperator{\sort}{sort}
+\DeclareMathOperator{\ringA}{\mathring{A}}
+\DeclareMathOperator{\Sh}{Sh}
+\DeclareMathOperator{\Bil}{Bil}
+
+% Topology
+\newcommand{\closure}[1]{\overline{#1}}
+\newcommand{\uball}{\mathcal{U}}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Bd}{Bd}
+\DeclareMathOperator{\rInt}{rInt}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\ah}{ah}
+\newcommand{\LargerTau}{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\tau}}}}}
+\newcommand{\Tau}{\mathcal{T}}
+
+% Analysis
+\DeclareMathOperator{\Graph}{Graph}
+\DeclareMathOperator{\epi}{epi}
+\DeclareMathOperator{\hypo}{hypo}
+\DeclareMathOperator{\supp}{supp}
+\newcommand{\lint}[2]{\underset{#1}{\overset{#2}{{\color{black}\underline{{\color{white}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\uint}[2]{\underset{#1}{\overset{#2}{{\color{white}\underline{{\color{black}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\alignint}[2]{\underset{#1}{\overset{#2}{{\color{white}\underline{{\color{white}\overline{{\color{black}\int}}\color{black}}}}}}}
+\newcommand{\extint}{\ptxt{ext}\int}
+\newcommand{\extalignint}[2]{\ptxt{ext}\alignint{#1}{#2}}
+\newcommand{\conv}{\ast}
+\newcommand{\pd}[2]{\frac{\partial{}#1}{\partial{}#2}}
+\newcommand{\del}{\nabla}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\curl}{curl}
+\let\div\relax
+\DeclareMathOperator{\div}{div}
+\DeclareMathOperator{\vol}{vol}
+
+% Complex Analysis
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator{\Res}{Res}
+
+% Abstract Algebra
+\DeclareMathOperator{\ord}{ord}
+\newcommand{\generated}[1]{\left<#1\right>}
+\newcommand{\cycle}[1]{\smallPMatrix{#1}}
+\newcommand{\id}{\ptxt{id}}
+\newcommand{\iso}{\cong}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\op}{op}
+\newcommand{\isom}[4]{\!\!\!\begin{array}[t]{rcl}#1 & \!\!\!\!\overset{\sim}{\to} & \!\!\!\!#2\\ #3 & \!\!\!\!\mapsto & \!\!\!\!#4\end{array}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\acts}{\;\reflectbox{\rotatebox[origin=c]{-90}{$\circlearrowright$}}\;}
+\newcommand{\disjunion}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\stab}{stab}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\Perm}{Perm}
+\DeclareMathOperator{\nsubgp}{\vartriangleleft}
+\DeclareMathOperator{\notnsubgp}{\ntriangleleft}
+\newcommand{\presentation}[2]{\left<#1\;\middle|\;#2\right>}
+\DeclareMathOperator{\Char}{char}
+\DeclareMathOperator{\fchar}{char}
+\DeclareMathOperator{\triv}{triv}
+\DeclareMathOperator{\reg}{reg}
+\DeclareMathOperator{\std}{std}
+\DeclareMathOperator{\Func}{Func}
+\DeclareMathOperator{\End}{End}
+
+% Convex Optimization
+\let\sectionSymbol\S
+\let\S\relax
+\newcommand{\S}{\mathbb{S}}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\ones}{\mathbbm{1}}
+\newcommand{\minimizeOver}[3]{\begin{array}{rl}\underset{#1}{\ptxt{minimize}} & #2\\ \ptxt{subject to} & #3\end{array}}
+\newcommand{\maximizeOver}[3]{\begin{array}{rl}\underset{#1}{\ptxt{maximize}} & #2\\ \ptxt{subject to} & #3\end{array}}
+\newcommand{\minimizationProblem}[2]{\minimizeOver{}{#1}{#2}}
+\newcommand{\maximizationProblem}[2]{\maximizeOver{}{#1}{#2}}
+\newcommand{\minimizeOverUnconstrained}[2]{\begin{array}{rl}\underset{#1}{\ptxt{minimize}} & #2\end{array}}
+\newcommand{\maximizeOverUnconstrained}[2]{\begin{array}{rl}\underset{#1}{\ptxt{maximize}} & #2\end{array}}
+\newcommand{\minimizationUnconstrained}[1]{\minimizeOverUnconstrained{}{#1}}
+\newcommand{\maximizationUnconstrained}[1]{\maximizeOverUnconstrained{}{#1}}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\argmax}{argmax}
+
+% Proofs
+\newcommand{\st}{s.t.}
+\newcommand{\unique}{!}
+\newcommand{\iffdef}{\overset{\ptxt{def}}{\Leftrightarrow}}
+\newcommand{\eqVertical}{\rotatebox[origin=c]{90}{=}}
+\newcommand{\mapsfrom}{\mathrel{\reflectbox{\ensuremath{\mapsto}}}}
+\newcommand{\mapsdown}{\rotatebox[origin=c]{-90}{$\mapsto$}\mkern2mu}
+\newcommand{\mapsup}{\rotatebox[origin=c]{90}{$\mapsto$}\mkern2mu}
+\newcommand{\from}{\!\mathrel{\reflectbox{\ensuremath{\to}}}}
+\newcommand{\labeledeq}[1]{\overset{\mathclap{\ptxt{#1}}}{=}}
+\newcommand{\eqdef}{\labeledeq{def}}
+\newcommand{\leftsquigarrow}{\mathrel{\reflectbox{\ensuremath{\rightsquigarrow}}}}
+\newcommand{\selfmap}{\mathbin{\scalebox{.85}{\lefteqn{\scalebox{.5}{$\blacktriangleleft$}}\raisebox{.34ex}{$\supset$}}}}
+
+% Brackets
+\newcommand{\paren}[1]{\left(#1\right)}
+\renewcommand{\brack}[1]{\left[#1\right]}
+\renewcommand{\brace}[1]{\left\{#1\right\}}
+\newcommand{\ang}[1]{\left<#1\right>}
+
+% Algorithms
+\algrenewcommand{\algorithmiccomment}[1]{\hskip 1em \texttt{// #1}}
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\newcommand{\algP}{\ptxt{\textbf{P}}}
+\newcommand{\algNP}{\ptxt{\textbf{NP}}}
+\newcommand{\algNPC}{\ptxt{\textbf{NP-Complete}}}
+\newcommand{\algNPH}{\ptxt{\textbf{NP-Hard}}}
+\newcommand{\algEXP}{\ptxt{\textbf{EXP}}}
+\DeclareMathOperator{\fl}{fl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other commands and shorthand
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\flag}[1]{\textbf{\textcolor{red}{#1}}}
+\let\uSym\u
+\let\u\relax
+\newcommand{\u}[1]{\underline{#1}}
+\let\bSym\b
+\let\b\relax
+\newcommand{\b}[1]{\textbf{#1}}
+\let\iSym\i
+\let\i\relax
+\newcommand{\i}[1]{\textit{#1}}
+\let\scSym\sc
+\let\sc\relax
+\newcommand{\sc}[1]{\textsc{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\ms}[1]{\mathscr{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make l's curvy in math environments %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mathcode`l="8000
+\begingroup
+\makeatletter
+\lccode`\~=`\l
+\DeclareMathSymbol{\lsb@l}{\mathalpha}{letters}{`l}
+\lowercase{\gdef~{\ifnum\the\mathgroup=\m@ne \ell \else \lsb@l \fi}}%
+\endgroup
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fix \vdots and \ddots %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{letltxmacro}
+\LetLtxMacro\orgvdots\vdots
+\LetLtxMacro\orgddots\ddots
+
+\makeatletter
+\DeclareRobustCommand\vdots{%
+	\mathpalette\@vdots{}%
+}
+\newcommand*{\@vdots}[2]{%
+	% #1: math style
+	% #2: unused
+	\sbox0{$#1\cdotp\cdotp\cdotp\m@th$}%
+	\sbox2{$#1.\m@th$}%
+	\vbox{%
+		\dimen@=\wd0 %
+		\advance\dimen@ -3\ht2 %
+		\kern.5\dimen@
+		% remove side bearings
+		\dimen@=\wd2 %
+		\advance\dimen@ -\ht2 %
+		\dimen2=\wd0 %
+		\advance\dimen2 -\dimen@
+		\vbox to \dimen2{%
+			\offinterlineskip
+			\copy2 \vfill\copy2 \vfill\copy2 %
+		}%
+	}%
+}
+\DeclareRobustCommand\ddots{%
+	\mathinner{%
+		\mathpalette\@ddots{}%
+		\mkern\thinmuskip
+	}%
+}
+\newcommand*{\@ddots}[2]{%
+	% #1: math style
+	% #2: unused
+	\sbox0{$#1\cdotp\cdotp\cdotp\m@th$}%
+	\sbox2{$#1.\m@th$}%
+	\vbox{%
+		\dimen@=\wd0 %
+		\advance\dimen@ -3\ht2 %
+		\kern.5\dimen@
+		% remove side bearings
+		\dimen@=\wd2 %
+		\advance\dimen@ -\ht2 %
+		\dimen2=\wd0 %
+		\advance\dimen2 -\dimen@
+		\vbox to \dimen2{%
+			\offinterlineskip
+			\hbox{$#1\mathpunct{.}\m@th$}%
+			\vfill
+			\hbox{$#1\mathpunct{\kern\wd2}\mathpunct{.}\m@th$}%
+			\vfill
+			\hbox{$#1\mathpunct{\kern\wd2}\mathpunct{\kern\wd2}\mathpunct{.}\m@th$}%
+		}%
+	}%
+}
+\makeatother
+
+\newcommand{\B}{
+	\begin{tikzpicture}
+	\filldraw [fill=red, draw=black] (0, 0) rectangle (0.37, 0.45);
+	\draw [line width=0.5mm, white ] (0.1,0.08) -- (0.1,0.38);
+	\draw[line width=0.5mm, white ] (0.1, 0.35) .. controls (0.2, 0.35) and (0.4, 0.2625) .. (0.1, 0.225);
+	\draw[line width=0.5mm, white ] (0.1, 0.225) .. controls (0.2, 0.225) and (0.4, 0.1625) .. (0.1, 0.1);
+	\end{tikzpicture}
+}
+
+% Allow custom symbols as arrows in tikz-cd
+\tikzset{
+  symbol/.style={
+    draw=none,
+    every to/.append style={
+      edge node={node [sloped, allow upside down, auto=false]{$#1$}}}
+  }
+}
+% Example: \arrow[r,symbol=\cong]
+% https://tex.stackexchange.com/questions/394154/how-to-include-inclusion-subgroup-relationship-in-tikz-cd-diagram
+
+\author{Thomas Cohn}
+\title{Math 635 Lecture 37}
+\date{4/16/21} % Can also use \today
+
+\begin{document}
+\maketitle
+\setlength\RaggedRightParindent{\parindent}
+\RaggedRight
+
+\par\noindent
+Recall from last time: Let $M$ be a compact, oriented, Riemannian manifold. Then the Laplacian on forms $\Laplacian:\Omega^{k}\to\Omega^{k}$ is $\Laplacian=\delta{}d+d\delta$. (Note that these are technically different $d$'s and different $\delta$'s, because $d$ increases the degree and $\delta$ reduces it.) And we have the deRham complex
+\[
+	\begin{tikzcd}
+		\cdots \arrow[r, shift left, "d"] & \Omega^{k-1} \arrow[l, shift left, "\delta"] \arrow[r, shift left, "d"] & \Omega^{k} \arrow[l, shift left, "\delta"] \arrow[r, shift left, "d"] & \Omega^{k+1} \arrow[l, shift left, "\delta"] \arrow[r, shift left, "d"] & \cdots \arrow[l, shift left, "\delta"]
+	\end{tikzcd}
+\]
+where $d^{*}=\delta$, i.e., $\forall\alpha\in\Omega^{k-1},\beta\in\Omega^{k}$, $\iprod{d\alpha,\beta}_{l^{2}}=\iprod{\alpha,\delta\beta}_{l^{2}}$.\n
+
+\lemma{
+	\begin{enumerate}[leftmargin=4\parindent, label=(\arabic*)]
+		\item $\delta^{2}=0$ (because $\delta^{2}=(d^{2})^{*}$)
+		\item $\Laplacian^{*}=\Laplacian$: $\forall\alpha,\beta\in\Omega^{k}$, $\iprod{\Laplacian\alpha,\beta}_{l^{2}}=\iprod{\alpha,\Laplacian\beta}_{l^{2}}$
+		\item $\comm{\Laplacian,d}=0$, $\comm{\Laplacian,\delta}=0$
+		\item $\Laplacian\alpha=0$ iff $d\alpha=0$ and $\delta\alpha=0$
+	\end{enumerate}\up\nn
+	Proof (3): $(\delta{}d+d\delta)d=\cancel{\delta{}dd}+d\delta{}d$ and $d(\delta{}d+d\delta)=d\delta{}d+\cancel{dd\delta}=d\delta{}d$. So $\comm{\Laplacian,d}=0$. (Identical proof for $\comm{\Laplacian,\delta}=0$.)\proven
+	(4): $\Leftarrow$ is obvious. For $\Rightarrow$, note that $\Laplacian\alpha=0$ implies
+	\[
+		0=\iprod{\Laplacian\alpha,\alpha}=\iprod{\delta{}d\alpha,\alpha}+\iprod{d\delta\alpha,\alpha}=\iprod{d\alpha,d\alpha}+\iprod{\delta\alpha,\delta\alpha}=\norm{d\alpha}_{l^{2}}^{2}+\norm{\delta\alpha}_{l^{2}}^{2}
+	\]
+	So $d\alpha=0$ and $\delta\alpha=0$.\proven
+}
+
+\subsection*{General Things about Linear Differential Operators}
+
+\par\noindent
+Let $U\subseteq\R^{n}$, consider $C^{\infty}(U,\C)$.\n
+
+\defn{
+	A \u{differential operator} $P$ on $C^{\infty}(U,\C)$ is of the form $\forall{}f\in{}C^{\infty}(U,\C)$,
+	\[
+		P(f)=\sum_{\alpha}c_{\alpha}(x)(D^{\alpha}f)(x)\quad\alpha\;\ptxt{multi-index with}\;\abs{\alpha}\le{}n\qquad{}D^{\alpha}=\frac{1}{i}\paren{\pd{}{x_{1}}}^{\alpha_{1}}\cdots\frac{1}{i}\paren{\pd{}{x_{n}}}^{\alpha_{n}}
+	\]
+	(here, we're using $i=\sqrt{-1}$). Note that $P$ is local -- $P(f)(x)$ only depends on $f$ in a neighborhood of $x$.\n
+}
+
+\par\noindent
+On manifolds, on $C^{\infty}(M,\C)$, linear differential operators are generated as a ring by multiplying by functions. For vector bundles/systems, we have $P:C^{\infty}(U,\C^{r})\to{}C^{\infty}(U,\C^{s})$, where $P=(P_{ij})_{s\times{}r}$, and $P_{ij}$ is a scalar differential operator.\n
+
+\par\noindent
+In the manifold setting, suppose we have two bundles $\mc{E}$ and $\mc{F}$:
+\[
+	\begin{tikzcd}
+		\mc{E} \arrow[dr] &[-20pt] &[-20pt] \mc{F} \arrow[dl]\\
+		 & M
+	\end{tikzcd}
+\]
+Consider $P:\Gamma(\mc{E})\to\Gamma(\mc{F})$. Under local trivializations on the same $U\subseteq{}M$, we have $\Gamma(\restr{\mc{E}}_{U})\cong{}C^{\infty}(U,\C^{r})\cong\Gamma(\restr{\mc{F}}_{U})$. So $P$ is locally the Euclidean case.\n
+
+\par\noindent
+We already know a bunch of examples!\n
+
+\ex{
+	$d:\Omega^{k}\to\Omega^{k+1}$ and $\nabla:\Gamma(\mc{E})\to\Gamma(\mc{E}\otimes{}T^{*}M)$ are differential operators of order $1$.\n
+}
+
+\par\noindent
+The main invariant associated to a differential operator $P$ is called its symbol. The symbol captures the top degree part of the operator. For an operator on $C^{\infty}(U,\C)$, think of computing: take $x_{0}\in{}U,\xi_{0}\in{}T_{x_{0}}^{*}U$ (i.e. $(x_{0},\xi_{0})\in{}T^{*}U$). Pick $\chi,\rho$ functions, both $C^{\infty}_{0}(U,\R)$ such that $\chi\equiv{}1$ near $x_{0}$ and $d\rho_{x_{0}}=\xi_{0}$. Consider $P(\chi{}e^{i\tau\rho})(x_{0})$ for $\tau\gg1$. We get
+\[
+	P(\chi{}e^{i\tau\rho})(x_{0})=\sum_{\mathclap{\abs{\alpha}=m\eqdef\deg{}P}}c_{\alpha}(x_{0})D^{\alpha}(\chi{}e^{i\tau\rho})+\ptxt{lower degree terms}
+\]
+Look for the highest power of $\tau$ on the right-hand side.
+\[
+	\tau^{m}e^{i\tau\rho(x_{0})}\sum_{\abs{\alpha}=m}c_{\alpha}(x_{0})\underbrace{(\del\rho(x_{0}))^{\alpha}}_{\xi_{1}^{\alpha_{1}}\cdots\xi_{n}^{\alpha_{n}}}+\ptxt{lower order terms in $\tau$}
+\]
+Now, forget the $\tau$ and forget the exponential.\n
+
+\defn{
+	The \u{symbol} of a differential operator $P$ is
+	\[
+		\sigma_{P}(x_{0},\xi_{0})=\sum_{\abs{\alpha}=m}c_{\alpha}(x_{0})\xi^{\alpha}=\lim_{\tau\to\infty}e^{-i\tau\rho(x_{0})}\frac{1}{\tau^{m}}P(\chi{}e^{i\tau\rho})(x_{0})
+	\]
+}
+
+\par\noindent
+Conclusion: On manifolds, $P:C^{\infty}(M,\C)\selfmap$, $\sigma_{P}:T^{*}M\to\C$ is well-defined. Specifically, it's a homogeneous polynomial in $\chi$ of degree $M$ on each fiber.\n
+
+\ex{
+	Let $X\in\mf{X}(M)$. Then $\sigma_{\mc{L}_{X}}:T^{*}M\to\C$ is $\sigma_{\mc{L}_{X}}(p,\xi)=i\iprod{\xi,X_{p}}$.\n
+}
+
+\ex{
+	$\Laplacian:C^{\infty}(M)\selfmap$, $\sigma_{\Laplacian}:T^{*}M\to\C$ is $\sigma_{\Laplacian}(p,\xi)=g^{ij}(p)\xi_{i}\xi_{j}=\norm{\xi}^{2}\Id$.\n
+	(Recall: this is from the definition of $\Laplacian$ in coordinates.)\n
+}
+
+\par\noindent
+If $P:\Gamma(\mc{E})\to\Gamma(\mc{F})$,
+\[
+	\begin{tikzcd}
+		\mc{E} \arrow[dr] &[-20pt] &[-20pt] \mc{F} \arrow[dl]\\
+		 & M
+	\end{tikzcd}
+\]
+Then for $(p,\xi)\in{}T^{*}M$, $\sigma_{P}(p,\xi):\mc{E}_{p}\to\mc{F}_{p}$ is a linear map between the fibers.\n
+
+\prop{
+	If $P$ and $Q$ are differential operators such that $P\of{}Q$ makes sense, then $\sigma_{P\of{}Q}=\sigma_{P}\of\sigma_{Q}$.\n
+}
+
+\defn{
+	$P$ is an \u{elliptic operator} iff $\forall{}(p,\xi)$ with $\xi\ne{}0$, $\sigma_{P}(p,\xi)$ is invertible.\n
+}
+
+\ex{
+	$P=\Laplacian$ is elliptic. $\sigma_{\Laplacian}=\norm{\xi}^{2}\Id$, so it's invertible everywhere. $\Laplacian$ has an approximate inverse $G$ -- ``$\sigma_{G}(p,\xi)=\frac{\Id}{\norm{\xi}^{2}}$''. $\Laplacian\of{}G-I$ and $G\of\Laplacian-I$ are smoothing operators -- they're very small.\n
+}
+
+\par\noindent
+We're skipping a lot of stuff here, but...\n
+
+\thm{
+	(Spectral Theorem of the Laplacian) Consider $\Laplacian:\Omega^{k}(M)\to\Omega^{k}(M)$, where $M$ is a compact, oriented, Riemannian manifold. Then
+	\begin{enumerate}[label=(\arabic*), leftmargin=4\parindent]
+		\item $\mc{U}^{k}=\ker\Laplacian$ has finite dimension.
+		\item There's an orthonormal basis (in the $l^{2}$ sense) of $\Omega^{k}$, $\set{\alpha_{j}}$, and $0\le\lambda_{0}\le\lambda_{1}\le\cdots\to+\infty$ \st{} $\Laplacian\alpha_{j}=\lambda_{j}\alpha_{j}$. In other words, we can think of $\Laplacian$ as an infinite matrix, that can be diagonalized by $\alpha_{j}$ and $\lambda_{j}$. We'll write $\forall\alpha\in\Omega^{k}$, $\alpha=\alpha^{H}+\sum_{\lambda>0\;\ptxt{distinct}}\alpha_{\lambda}$. $\alpha^{H}$ is the harmonic piece -- $\Laplacian\alpha^{H}=0$, $\Laplacian\alpha_{\lambda}=\lambda\alpha_{\lambda}$. We define Green's operator $G(\alpha)=\sum_{\lambda>0}\frac{1}{\lambda}\alpha_{\lambda}$. So $(I-\Laplacian\of{}G)(\alpha)=G^{H}$.
+	\end{enumerate}
+}
+
+\ex{
+	For $\Laplacian$ on $C^{\infty}(S^{2})$, we have $\lambda=k(k+1)$ with multiplicity $2k+1$ (for $k\in\Z_{\ge{}0}$).\n
+}
+
+\end{document}
